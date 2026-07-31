@@ -3,64 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تولیدکننده پرو تامبنیل یوتیوب</title>
+    <title>استودیو تخصصی تامبنیل یوتیوب (نسخه پرو)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- فونت وزیرمتن -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.0.0/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
-        body { font-family: 'Vazirmatn', sans-serif; background: radial-gradient(circle at 50% 0%, #1e293b, #0f172a); color: #f8fafc; min-height: 100vh; }
-        .glass-panel { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .input-glass { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
-        .input-glass:focus { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); outline: none; }
+        body { font-family: 'Vazirmatn', sans-serif; background: radial-gradient(circle at 50% 0%, #0f172a, #020617); color: #f8fafc; min-height: 100vh; }
+        .glass-panel { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .input-glass { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
+        .input-glass:focus { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.25); outline: none; }
         
-        /* استایل سفارشی برای انتخاب رنگ */
         .color-radio { display: none; }
-        .color-label { display: inline-block; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.2s; }
+        .color-label { display: inline-block; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: transform 0.2s, box-shadow 0.2s; }
         .color-label:hover { transform: scale(1.1); }
-        .color-radio:checked + .color-label { border-color: white; box-shadow: 0 0 15px currentColor; transform: scale(1.15); }
+        .color-radio:checked + .color-label { border-color: #ffffff; box-shadow: 0 0 15px currentColor; transform: scale(1.15); }
 
-        /* استایل سفارشی چک‌باکس‌ها */
         .style-card { transition: all 0.2s ease; }
-        .style-checkbox:checked + div { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; }
+        .style-checkbox:checked + div { background: rgba(59, 130, 246, 0.25); border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
 
-        .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #3b82f6; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; display: none; margin: 0 auto; }
+        .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #3b82f6; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin: 0 auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Toast Animation */
+        #toast { transition: transform 0.3s ease, opacity 0.3s ease; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
+    <!-- سیستم توست (پیام‌ها) -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 translate-y-[-150%] z-50 bg-slate-800 border border-slate-700 px-6 py-3 rounded-2xl shadow-2xl text-sm font-medium flex items-center space-x-3 space-x-reverse">
+        <span id="toastIcon">ℹ️</span>
+        <span id="toastMessage">پیام سیستم</span>
+    </div>
+
     <div class="max-w-6xl mx-auto">
         <!-- هدر -->
-        <header class="text-center mb-12 mt-4">
-            <div class="inline-block px-4 py-1 rounded-full bg-blue-900/50 text-blue-400 text-sm font-bold mb-4 border border-blue-500/30">نسخه حرفه‌ای (Pro)</div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 mb-3">
-                استودیو هوش مصنوعی تامبنیل
+        <header class="text-center mb-10 mt-2">
+            <div class="inline-flex items-center space-x-2 space-x-reverse px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-3 border border-blue-500/20 shadow-inner">
+                <span>⚡ سیستم ذخیره‌سازی محلی (LocalStorage) فعال است</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 mb-2">
+                استودیو سازنده تامبنیل یوتیوب
             </h1>
-            <p class="text-slate-400 max-w-2xl mx-auto">با انتخاب رنگ‌بندی، استایل و ترکیب تصاویر، خفن‌ترین کاورها را برای ویدیوهای یوتیوب خود بسازید.</p>
+            <p class="text-slate-400 text-sm md:text-base">کاراکتر و توکن شما امن در مرورگرتان ذخیره می‌شود تا همیشه آماده ساخت باشید.</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- پنل سمت راست (تنظیمات اصلی) -->
+            <!-- ستون تنظیمات (چپ / بزرگتر) -->
             <div class="lg:col-span-8 space-y-6">
                 
-                <!-- باکس توکن و پرامپت -->
-                <div class="glass-panel p-6 md:p-8 rounded-2xl shadow-xl">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-slate-300 mb-2">کلید دسترسی (API Key)</label>
-                            <input type="password" id="apiKey" placeholder="AIzaSy..." class="w-full input-glass rounded-xl px-4 py-3 text-left" dir="ltr">
+                <!-- بخش توکن و عنوان ویدیو -->
+                <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold text-slate-300">کلید API جمینای (ذخیره خودکار)</label>
+                                <button onclick="clearApiKey()" class="text-[10px] text-red-400 hover:text-red-300 underline">حذف کلید</button>
+                            </div>
+                            <input type="password" id="apiKey" oninput="saveApiKey()" placeholder="AIzaSy..." class="w-full input-glass rounded-xl px-4 py-2.5 text-sm text-left" dir="ltr">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">متن اصلی روی تامبنیل (عنوان ویدیو)</label>
+                            <input type="text" id="videoTitle" placeholder="مثلاً: حل کامل مشکلات SNI" class="w-full input-glass rounded-xl px-4 py-2.5 text-sm">
                         </div>
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-slate-300 mb-2">توضیح تصویر (Prompt)</label>
-                            <textarea id="promptText" rows="3" placeholder="کاراکتر در حال اشاره به یک صفحه نمایش هولوگرامی، با چهره‌ای متعجب..." class="w-full input-glass rounded-xl px-4 py-3"></textarea>
+                            <label class="block text-xs font-bold text-slate-300 mb-2">توضیح صحنه و پرامپت (پوستر، افکت‌ها و جو ویدیو)</label>
+                            <textarea id="promptText" rows="3" placeholder="کاراکتر با چهره‌ای متعجب به یک مانیتور هولوگرامی اشاره می‌کند، پشت سر انفجار دیجیتالی..." class="w-full input-glass rounded-xl px-4 py-3 text-sm"></textarea>
                         </div>
                     </div>
 
-                    <!-- بخش انتخاب تم رنگی (جدید) -->
-                    <div class="mb-8">
-                        <label class="block text-sm font-semibold text-slate-300 mb-4">تم رنگی غالب تصویر</label>
+                    <!-- تم رنگی -->
+                    <div class="mt-6 pt-5 border-t border-slate-700/50">
+                        <label class="block text-xs font-bold text-slate-300 mb-3">تم رنگی غالب تامبنیل</label>
                         <div class="flex flex-wrap gap-4 items-center">
                             <label title="آبی سایبری">
                                 <input type="radio" name="themeColor" value="Cybernetic Blue glowing accents" class="color-radio" checked>
@@ -74,36 +90,242 @@
                                 <input type="radio" name="themeColor" value="Neon Matrix Green accents" class="color-radio">
                                 <span class="color-label bg-green-500" style="color: #22c55e;"></span>
                             </label>
-                            <label title="بنفش نئونی (Synthwave)">
+                            <label title="بنفش نئونی">
                                 <input type="radio" name="themeColor" value="Synthwave Purple and Pink neon lights" class="color-radio">
                                 <span class="color-label bg-purple-500" style="color: #a855f7;"></span>
                             </label>
-                            <label title="طلایی/لوکس">
+                            <label title="طلایی و لوکس">
                                 <input type="radio" name="themeColor" value="Luxurious Gold and warm lighting" class="color-radio">
                                 <span class="color-label bg-yellow-500" style="color: #eab308;"></span>
-                            </label>
-                            <label title="تاریک و مینیمال">
-                                <input type="radio" name="themeColor" value="Dark minimalist, low key lighting, monochromatic" class="color-radio">
-                                <span class="color-label bg-slate-700" style="color: #334155;"></span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- بخش انتخاب استایل -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-semibold text-slate-300 mb-4">استایل هنری (امکان انتخاب چند مورد)</label>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- استایل‌های هنری -->
+                    <div class="mt-6 pt-5 border-t border-slate-700/50">
+                        <label class="block text-xs font-bold text-slate-300 mb-3">استایل هنری (چند انتخابی)</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                             <label class="cursor-pointer relative">
                                 <input type="checkbox" value="Highly detailed Anime style" class="style-checkbox hidden">
-                                <div class="style-card text-center p-3 rounded-xl border border-slate-600 bg-slate-800/50 hover:border-slate-400">
-                                    <span class="block text-sm font-medium">انیمه دقیق</span>
+                                <div class="style-card text-center p-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:border-slate-500">
+                                    <span class="text-xs font-medium">انیمه دقیق</span>
                                 </div>
                             </label>
                             <label class="cursor-pointer relative">
-                                <input type="checkbox" value="Epic Cinematic lighting, 8k, Unreal Engine 5 render" class="style-checkbox hidden">
-                                <div class="style-card text-center p-3 rounded-xl border border-slate-600 bg-slate-800/50 hover:border-slate-400">
-                                    <span class="block text-sm font-medium">سینماتیک و خفن</span>
+                                <input type="checkbox" value="Epic Cinematic lighting, 8k, Unreal Engine 5" class="style-checkbox hidden">
+                                <div class="style-card text-center p-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:border-slate-500">
+                                    <span class="text-xs font-medium">سینماتیک خفن</span>
                                 </div>
+                            </label>
+                            <label class="cursor-pointer relative">
+                                <input type="checkbox" value="Vibrant colors, high contrast, dynamic composition" class="style-checkbox hidden">
+                                <div class="style-card text-center p-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:border-slate-500">
+                                    <span class="text-xs font-medium">رنگ‌های غلیظ</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer relative">
+                                <input type="checkbox" value="3D Pixar style, smooth textures" class="style-checkbox hidden">
+                                <div class="style-card text-center p-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:border-slate-500">
+                                    <span class="text-xs font-medium">سه‌بعدی فانتزی</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- بخش مدیریت تصاویر (کاراکتر دائمی + تصویر دوم) -->
+                <div class="glass-panel p-6 rounded-2xl shadow-xl">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- کاراکتر دائمی -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold text-blue-400">👤 کاراکتر اصلی شما (ذخیره دائمی)</label>
+                                <button onclick="clearCharacter()" class="text-[10px] text-red-400 hover:text-red-300 underline">حذف کاراکتر</button>
+                            </div>
+                            <div class="relative group border-2 border-dashed border-blue-500/40 rounded-xl p-4 text-center bg-blue-950/20 hover:bg-blue-950/40 transition-all cursor-pointer">
+                                <input type="file" id="charImage" accept="image/png, image/jpeg" onchange="handleCharacterUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div id="charUploadPrompt">
+                                    <div class="text-2xl mb-1">Upload</div>
+                                    <div class="text-xs text-slate-300 font-medium">کلیک یا آپلود عکس کاراکتر</div>
+                                </div>
+                                <div id="charPreviewContainer" class="hidden relative z-20 flex items-center justify-center space-x-2 space-x-reverse">
+                                    <img id="charPreview" class="w-12 h-12 rounded-lg object-cover border border-blue-400">
+                                    <span class="text-xs text-blue-300">کاراکتر ذخیره شد ✓</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- تصویر پس‌زمینه یا نماد ویدیو (موقت) -->
+                        <div>
+                            <label class="block text-xs font-bold text-purple-400 mb-2">🖼️ تصویر نماد یا بک‌گراند ویدیو (دلخواه)</label>
+                            <div class="relative group border-2 border-dashed border-purple-500/40 rounded-xl p-4 text-center bg-purple-950/20 hover:bg-purple-950/40 transition-all cursor-pointer">
+                                <input type="file" id="bgImage" accept="image/png, image/jpeg" onchange="handleBgUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div id="bgUploadPrompt">
+                                    <div class="text-2xl mb-1">Add</div>
+                                    <div class="text-xs text-slate-300 font-medium" id="bgFileName">آپلود عکس کمکی این ویدیو</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button onclick="generateThumbnail()" class="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white text-base font-bold py-4 rounded-2xl shadow-[0_0_25px_rgba(79,70,229,0.4)] transform transition active:scale-[0.99]">
+                    🚀 ساخت حرفه‌ای تامبنیل یوتیوب
+                </button>
+            </div>
+
+            <!-- ستون پیش‌نمایش (راست / کوچکتر) -->
+            <div class="lg:col-span-4">
+                <div class="glass-panel p-6 rounded-2xl shadow-xl h-full flex flex-col items-center justify-start min-h-[500px] relative overflow-hidden">
+                    
+                    <div class="w-full flex justify-between items-center mb-6 pb-4 border-b border-slate-700/50">
+                        <h3 class="text-sm font-bold text-slate-200">پیش‌نمایش خروجی</h3>
+                        <span class="text-[10px] bg-slate-800 px-2.5 py-1 rounded-full text-slate-400 border border-slate-700">16:9 HD</span>
+                    </div>
+                    
+                    <!-- لودینگ -->
+                    <div id="loadingState" class="flex-col items-center justify-center h-full w-full hidden absolute inset-0 bg-slate-950/85 backdrop-blur-md z-30">
+                        <div class="loader mb-4 mt-32"></div>
+                        <p class="text-blue-400 text-sm font-bold animate-pulse">هوش مصنوعی در حال پردازش...</p>
+                        <p id="promptLog" class="text-[10px] text-slate-400 mt-2 text-center px-6" dir="ltr"></p>
+                    </div>
+
+                    <!-- حالت اولیه -->
+                    <div id="emptyState" class="flex flex-col items-center justify-center flex-grow opacity-40 my-auto">
+                        <div class="text-5xl mb-3">🎨</div>
+                        <p class="text-xs text-center">مشخصات را وارد کرده و روی ساخت کلیک کنید.</p>
+                    </div>
+
+                    <!-- تصویر خروجی -->
+                    <img id="resultImage" class="w-full rounded-xl shadow-2xl hidden border border-slate-700/60 z-10" alt="Generated Thumbnail">
+                    
+                    <button id="downloadBtn" onclick="downloadImage()" class="mt-auto hidden w-full bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white py-3 rounded-xl transition-colors text-xs font-bold z-10 shadow-lg">
+                        دانلود تصویر با کیفیت اصلی ⬇️
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // لود مقادیر ذخیره شده از LocalStorage به محض باز شدن صفحه
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedKey = localStorage.getItem('yt_gemini_apiKey');
+            if (savedKey) {
+                document.getElementById('apiKey').value = savedKey;
+            }
+
+            const savedChar = localStorage.getItem('yt_character_base64');
+            if (savedChar) {
+                document.getElementById('charPreview').src = savedChar;
+                document.getElementById('charUploadPrompt').classList.add('hidden');
+                document.getElementById('charPreviewContainer').classList.remove('hidden');
+            }
+        });
+
+        // ذخیره خودکار API Key
+        function saveApiKey() {
+            const key = document.getElementById('apiKey').value.trim();
+            if (key) {
+                localStorage.setItem('yt_gemini_apiKey', key);
+            }
+        }
+
+        function clearApiKey() {
+            localStorage.removeItem('yt_gemini_apiKey');
+            document.getElementById('apiKey').value = '';
+            showToast('کلید API از حافظه پاک شد.', '⚠️');
+        }
+
+        // مدیریت ذخیره دائمی کاراکتر در LocalStorage
+        function handleCharacterUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                try {
+                    localStorage.setItem('yt_character_base64', base64Data);
+                    document.getElementById('charPreview').src = base64Data;
+                    document.getElementById('charUploadPrompt').classList.add('hidden');
+                    document.getElementById('charPreviewContainer').classList.remove('hidden');
+                    showToast('کاراکتر اصلی با موفقیت در مرورگر ذخیره شد!', '✨');
+                } catch (err) {
+                    showToast('حجم عکس کاراکتر زیاد است و در حافظه جا نشد.', '❌');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearCharacter() {
+            localStorage.removeItem('yt_character_base64');
+            document.getElementById('charUploadPrompt').classList.remove('hidden');
+            document.getElementById('charPreviewContainer').classList.add('hidden');
+            document.getElementById('charImage').value = '';
+            showToast('کاراکتر ذخیره‌شده پاک شد.', '🗑️');
+        }
+
+        // آپلود عکس دوم (موقت برای همین ویدیو)
+        let temporaryBgBase64 = null;
+        let temporaryBgType = null;
+        function handleBgUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('bgFileName').innerText = file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                temporaryBgBase64 = e.target.result.split(',')[1];
+                temporaryBgType = file.type;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // سیستم نمایش پیام (Toast)
+        function showToast(message, icon = 'ℹ️') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            document.getElementById('toastIcon').innerText = icon;
+            toast.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => {
+                toast.style.transform = 'translate(-50%, -150%)';
+            }, 3500);
+        }
+
+        // موتور اصلی ساخت پرامپت و ارتباط با هوش مصنوعی
+        async function generateThumbnail() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const prompt = document.getElementById('promptText').value.trim();
+            const videoTitle = document.getElementById('videoTitle').value.trim();
+            
+            if (!apiKey) {
+                showToast('لطفاً کلید API جمینای را وارد کنید!', '❌');
+                return;
+            }
+            if (!prompt) {
+                showToast('لطفاً توضیح صحنه (پرامپت) را بنویسید!', '❌');
+                return;
+            }
+
+            const savedCharBase64 = localStorage.getItem('yt_character_base64');
+            if (!savedCharBase64) {
+                showToast('لطفاً حداقل یک‌بار عکس کاراکتر خود را آپلود کنید تا ذخیره شود!', '⚠️');
+                return;
+            }
+
+            // جمع‌آوری استایل‌ها و رنگ‌ها
+            const selectedColor = document.querySelector('input[name="themeColor"]:checked').value;
+            const checkboxes = document.querySelectorAll('.style-checkbox:checked');
+            let selectedStyles = Array.from(checkboxes).map(cb => cb.value);
+
+            // مهندسی پرامپت پیشرفته
+            let finalPrompt = `YouTube thumbnail cover art, 16:9 aspect ratio. Subject: ${prompt}. `;
+            if (videoTitle) {
+                finalPrompt += `Featuring big, bold, stylish typography text overlay on the thumbnail reading: "${videoTitle}                                </div>
                             </label>
                             <label class="cursor-pointer relative">
                                 <input type="checkbox" value="Vibrant colors, high contrast, dynamic composition" class="style-checkbox hidden">
